@@ -20,8 +20,8 @@ public class Main
         
         JButton b=new JButton("Click Here To Generate a Random Bingo Card");
 
-        ImageIcon yetiIcon = new ImageIcon("./nsmb2Icon.jpg");
-        f.setIconImage(yetiIcon.getImage());
+        ImageIcon nsmb2Icon = new ImageIcon("./nsmb2Icon.jpg");
+        f.setIconImage(nsmb2Icon.getImage());
 
         b.addActionListener(new ActionListener()
         {
@@ -45,18 +45,3 @@ public class Main
         f.setVisible(true);
     }
 }
-
-
-/**
-        int[] randomSeeds = new int[25];
-        ArrayList<String> currentGoals = new ArrayList<String>();
-
-        
-        //Creating a normal bingo board
-        if (bingoType.equalsIgnoreCase("N"))
-        {
-
-            
-        }
-    }
- */
