@@ -4,18 +4,25 @@
 import java.util.*;
 import java.io.*;
 import java.lang.Math;
+import java.lang.reflect.Array;
 
 public class BingoBoard
 {
     //Declare private instance variables
     private int[] randomSeeds;
-    private ArrayList<String> currentGoals;
+    private ArrayList<String> allGoals;
+    private ArrayList<String> gameGoals;
     
     //Constructor
-    public BingoBoard(ArrayList<String> goals, int[] seeds)
+    public BingoBoard() throws FileNotFoundException
     {
-        randomSeeds = seeds;
-        currentGoals = goals;
+        randomSeeds = new int[25];
+        allGoals = new ArrayList<String>();
+        gameGoals = new ArrayList<String>();
+
+
+        randomSeeds = generateSeeds(randomSeeds);
+        allGoals = readInGoals(allGoals);
     }
 
 
@@ -28,7 +35,7 @@ public class BingoBoard
 
     public ArrayList<String> getGoals()
     {
-        return currentGoals;
+        return gameGoals;
     }
     
     
@@ -76,7 +83,59 @@ public class BingoBoard
 
         return arr;
     }
+
+
+    // A method that puts every single goal into an ArrayList of Strings
+    public ArrayList<String> readInGoals(ArrayList<String> goals) throws FileNotFoundException
+    {
+        Scanner in = new Scanner(new File("nsmb2_goals.txt"));
+
+        while (in.hasNextLine())
+        {
+            goals.add(in.nextLine());
+        }
+        
+        return goals;
+    }
     
+
+    // A method that randomly generates 25 unique seeds, puts them into an array, and returns the array
+    public int[] generateSeeds(int[] seeds)
+    {
+
+        boolean[] hasBeenUsed = new boolean[132];
+        
+        for (int i = 0; i < 25; i++)
+        {
+            int x = (int)(Math.random() * (94)) + 1;
+            
+            if (hasBeenUsed[x] == true)
+            {
+                i--;
+            }
+
+            else
+            {
+                seeds[i] = x;
+                hasBeenUsed[x] = true;
+            }
+        }
+
+        int[] to_return = selectionSort(seeds);
+        return to_return;
+    }
+
+
+    // Method that takes in the random seeds in an array and creates/returns an ArrayList of goals
+    public void addGoalsToStorage() throws FileNotFoundException
+    {
+        for (int i = 0; i < randomSeeds.length; i++)
+        {
+            gameGoals.add(allGoals.get(randomSeeds[i] - 1));
+        }
+
+        generateBingoCard(gameGoals);
+    }
 
 
 
@@ -89,7 +148,7 @@ public class BingoBoard
     */
     public void generateBingoCard(ArrayList<String> goals) throws FileNotFoundException
     {
-        PrintStream out = new PrintStream(new File("BINGOCARD.json"));
+        PrintStream out = new PrintStream(new File("BINGOCARD.txt"));
 
         out.println("[");
 

@@ -9,6 +9,7 @@ import javax.imageio.*;
 import javax.swing.border.Border;
 import java.util.ArrayList;
 import java.util.jar.JarEntry;
+import java.util.ArrayList;
 
 public class Main 
 {
@@ -27,13 +28,12 @@ public class Main
         {
             public void actionPerformed(ActionEvent e)
             {
-                int[] randomSeeds = new int[25];
-                ArrayList<String> currentGoals = new ArrayList<String>();
-                
-                AnyBingo newBoard = new AnyBingo(currentGoals, randomSeeds);
-                newBoard.generateBingoCard(newBoard.generateGoals(newBoard.generateSeeds(newBoard.getSeeds()), newBoard.getGoals()));
-
-                newBoard.printSeeds(newBoard.getSeeds());
+                try {
+                    fileWriting();
+                } catch (FileNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                 b.setText(("Done! Copy/paste the contents of the BINGOCARD.txt file into bingosync!"));
             }
         });
@@ -43,5 +43,14 @@ public class Main
         f.setSize(500,100);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
+    }
+
+
+    // Maybe this will fix my problem?
+    public static void fileWriting() throws FileNotFoundException
+    {
+        BingoBoard board = new BingoBoard();
+        board.generateSeeds(board.getSeeds());
+        board.addGoalsToStorage();
     }
 }

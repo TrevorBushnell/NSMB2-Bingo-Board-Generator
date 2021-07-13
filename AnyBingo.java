@@ -21,7 +21,7 @@ public class AnyBingo extends BingoBoard
         
         for (int i = 0; i < 25; i++)
         {
-            int x = (int)(Math.random() * (131)) + 1;
+            int x = (int)(Math.random() * (94)) + 1;
             
             if (hasBeenUsed[x] == true)
             {
